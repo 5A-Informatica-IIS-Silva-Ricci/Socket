@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 public class DatagramClient {
     private static final int porta = 1025;
+    private static final int maxlength = 1024;
 
     public static void main(String[] args) {
         try {
@@ -23,6 +24,12 @@ public class DatagramClient {
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, indirizzoServer, porta);
 
             ds.send(packet);
+
+            byte[] bufferResponse = new byte[maxlength];
+            DatagramPacket response = new DatagramPacket(bufferResponse, bufferResponse.length);
+
+            ds.receive(response);
+            System.out.println(new String(response.getData()));
 
             ds.close();
         } catch(IOException e) {
